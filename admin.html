@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Book Baddies | Admin</title>
+
+<link rel="stylesheet" href="admin.css">
+
+</head>
+
+
+<body>
+
+
+<div id="loginScreen" class="screen">
+
+    <div class="login-box">
+
+        <div class="admin-crown">
+            ♕
+        </div>
+
+        <h1>
+            Book Baddies
+        </h1>
+
+        <h2>
+            Admin
+        </h2>
+
+        <p>
+            Private administration area
+        </p>
+
+
+        <form id="loginForm">
+
+            <label>
+                Email
+
+                <input
+                type="email"
+                id="loginEmail"
+                required
+                autocomplete="email">
+            </label>
+
+
+            <label>
+                Password
+
+                <input
+                type="password"
+                id="loginPassword"
+                required
+                autocomplete="current-password">
+            </label>
+
+
+            <button
+            type="submit"
+            class="admin-button">
+
+                Login ♡
+
+            </button>
+
+
+            <p
+            id="loginError"
+            class="error">
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<div
+id="dashboardScreen"
+class="dashboard hidden">
+
+
+<header class="admin-header">
+
+    <div>
+
+        <div class="admin-brand">
+            ♕ Book Baddies
+        </div>
+
+        <span>
+            Administration
+        </span>
+
+    </div>
+
+
+    <button
+    id="logoutButton"
+    class="logout-button">
+
+        Logout
+
+    </button>
+
+</header>
+
+
+
+<main>
+
+
+<section class="welcome">
+
+    <p>
+        PRIVATE ADMIN AREA
+    </p>
+
+    <h1>
+        Welcome back, Mic ♡
+    </h1>
+
+    <span>
+        Manage your Book Baddies orders below.
+    </span>
+
+</section>
+
+
+
+<section class="stats-grid">
+
+
+<div class="stat-card">
+
+    <span>
+        TOTAL ORDERS
+    </span>
+
+    <strong id="totalOrders">
+        0
+    </strong>
+
+</div>
+
+
+<div class="stat-card">
+
+    <span>
+        NEW ORDERS
+    </span>
+
+    <strong id="newOrders">
+        0
+    </strong>
+
+</div>
+
+
+<div class="stat-card">
+
+    <span>
+        PAID
+    </span>
+
+    <strong id="paidOrders">
+        0
+    </strong>
+
+</div>
+
+
+<div class="stat-card">
+
+    <span>
+        SHIPPED
+    </span>
+
+    <strong id="shippedOrders">
+        0
+    </strong>
+
+</div>
+
+
+</section>
+
+
+
+<section class="orders-section">
+
+
+<div class="section-heading">
+
+    <div>
+
+        <p>
+            BOOK BADDIES
+        </p>
+
+        <h2>
+            Orders
+        </h2>
+
+    </div>
+
+
+    <button
+    id="refreshButton"
+    class="refresh-button">
+
+        ↻ Refresh
+
+    </button>
+
+</div>
+
+
+<div class="filter-bar">
+
+    <input
+    type="text"
+    id="searchOrders"
+    placeholder="Search orders or customers...">
+
+
+    <select id="statusFilter">
+
+        <option value="all">
+            All Statuses
+        </option>
+
+        <option value="New">
+            New
+        </option>
+
+        <option value="Contacted">
+            Contacted
+        </option>
+
+        <option value="Paid">
+            Paid
+        </option>
+
+        <option value="Processing">
+            Processing
+        </option>
+
+        <option value="Shipped">
+            Shipped
+        </option>
+
+        <option value="Completed">
+            Completed
+        </option>
+
+        <option value="Cancelled">
+            Cancelled
+        </option>
+
+    </select>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Order
+</th>
+
+<th>
+Customer
+</th>
+
+<th>
+Product
+</th>
+
+<th>
+Qty
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Date
+</th>
+
+<th>
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="ordersTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div
+id="emptyOrders"
+class="empty-orders hidden">
+
+    ♡ No orders found.
+
+</div>
+
+
+</section>
+
+</main>
+
+</div>
+
+
+
+<!-- ORDER DETAILS -->
+
+<div
+id="orderModal"
+class="modal hidden">
+
+<div class="modal-content">
+
+
+<button
+id="closeModal"
+class="close-modal">
+
+    ×
+
+</button>
+
+
+<p>
+ORDER DETAILS
+</p>
+
+<h2 id="modalOrderNumber">
+    Order
+</h2>
+
+
+<div class="order-detail-grid">
+
+
+<div>
+    <span>Customer</span>
+    <strong id="modalName"></strong>
+</div>
+
+
+<div>
+    <span>WhatsApp</span>
+    <strong id="modalPhone"></strong>
+</div>
+
+
+<div>
+    <span>Product</span>
+    <strong id="modalProduct"></strong>
+</div>
+
+
+<div>
+    <span>Quantity</span>
+    <strong id="modalQuantity"></strong>
+</div>
+
+
+<div>
+    <span>PUDO Locker</span>
+    <strong id="modalLocker"></strong>
+</div>
+
+
+<div>
+    <span>Date</span>
+    <strong id="modalDate"></strong>
+</div>
+
+</div>
+
+
+<div class="notes-box">
+
+    <span>
+        Additional Notes
+    </span>
+
+    <p id="modalNotes">
+    </p>
+
+</div>
+
+
+<div class="status-area">
+
+    <label>
+        Order Status
+
+        <select id="modalStatus">
+
+            <option value="New">
+                New
+            </option>
+
+            <option value="Contacted">
+                Contacted
+            </option>
+
+            <option value="Paid">
+                Paid
+            </option>
+
+            <option value="Processing">
+                Processing
+            </option>
+
+            <option value="Shipped">
+                Shipped
+            </option>
+
+            <option value="Completed">
+                Completed
+            </option>
+
+            <option value="Cancelled">
+                Cancelled
+            </option>
+
+        </select>
+
+    </label>
+
+
+    <button
+    id="saveStatus"
+    class="admin-button">
+
+        Save Status
+
+    </button>
+
+
+    <p
+    id="statusMessage">
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="admin.js"></script>
+
+
+</body>
+</html>
