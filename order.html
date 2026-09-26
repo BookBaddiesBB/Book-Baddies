@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Book Baddies | Order</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<style>
+
+.terms-box {
+    margin-top: 25px;
+    padding: 20px;
+    background: #eef6ff;
+    border-radius: 15px;
+    border: 1px solid rgba(29, 95, 167, 0.15);
+}
+
+.terms-box label {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    line-height: 1.6;
+}
+
+.terms-box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.terms-box a {
+    color: #1d5fa7;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.terms-warning {
+    display: none;
+    margin-top: 12px;
+    color: #b00020;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+<a href="index.html" class="logo">
+
+<span class="logo-crown">♕</span>
+
+<span class="logo-book">
+Book
+</span>
+
+<span class="logo-baddies">
+Baddies
+</span>
+
+</a>
+
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="index.html#about">
+About
+</a>
+
+<a href="index.html#raffles">
+Raffles
+</a>
+
+<a href="shop.html">
+Book Boxes
+</a>
+
+<a href="order.html">
+Order
+</a>
+
+</nav>
+
+</header>
+
+
+<section class="page-header">
+
+<p>
+BOOK BADDIES ORDERS
+</p>
+
+<h1>
+Place Your Order ♡
+</h1>
+
+<span>
+Complete the form below and
+your order will be sent to Mic
+through WhatsApp.
+</span>
+<p> ...
+		</p>
+        <p>
+            Please note that you are responsible for paying the
+            shipping cost. (Not included in price)
+        </p>
+</section>
+
+
+<section class="section order-section">
+
+
+<form
+id="orderForm"
+class="order-form">
+
+
+<label>
+
+Your Name *
+
+<input
+type="text"
+id="name"
+placeholder="Your full name"
+required>
+
+</label>
+
+
+<label>
+
+WhatsApp Number *
+
+<input
+type="tel"
+id="phone"
+placeholder="Your WhatsApp number"
+required>
+
+</label>
+
+
+<label>
+
+What Would You Like To Order? *
+
+<select
+id="product"
+required>
+
+<option value="">
+Please choose...
+</option>
+
+<option value="Collector's Edition Box">
+Collector's Edition Box
+</option>
+
+<option value="Blind Date - Fantasy">
+Blind Date - Fantasy
+</option>
+
+<option value="Blind Date - YA Romance">
+Blind Date - YA Romance
+</option>
+
+<option value="Blind Date - Adult Romance">
+Blind Date - Adult Romance
+</option>
+
+<option value="Blind Date - YA">
+Blind Date - YA
+</option>
+
+<option value="Blind Date - Mystery">
+Blind Date - Mystery
+</option>
+
+<option value="Blind Date - Sci-Fi">
+Blind Date - Sci-Fi
+</option>
+
+</select>
+
+</label>
+
+
+<label>
+
+Quantity *
+
+<input
+type="number"
+id="quantity"
+min="1"
+value="1"
+required>
+
+</label>
+
+
+<label>
+
+Delivery Locker *
+
+<p class="pudo-instruction">
+
+Please choose your closest PUDO locker point first:
+
+<a
+href="https://pudo-map.onedayonly.co.za"
+target="_blank"
+rel="noopener noreferrer">
+
+Choose Your PUDO Locker ♡
+
+</a>
+
+</p>
+
+<input
+type="text"
+id="address"
+placeholder="Enter the PUDO locker you selected"
+required>
+
+</label>
+
+
+<label>
+
+Additional Notes
+
+<textarea
+id="notes"
+placeholder="Anything else you'd like Mic to know?"></textarea>
+
+</label>
+
+
+<!-- =========================
+TERMS & CONDITIONS
+========================= -->
+
+<div class="terms-box">
+
+    <label for="termsAccepted">
+
+        <input
+        type="checkbox"
+        id="termsAccepted"
+        required>
+
+        <span>
+
+            I confirm that I have read and agree to the
+            <a
+            href="terms.html"
+            target="_blank"
+            rel="noopener noreferrer">
+            Book Baddies Terms & Conditions
+            </a>.
+
+        </span>
+
+    </label>
+
+    <p
+    id="termsWarning"
+    class="terms-warning">
+
+        ♡ Please read and accept the Terms & Conditions
+        before placing your order.
+
+    </p>
+
+</div>
+
+
+<button
+type="submit"
+id="submitOrder"
+class="button button-blue full">
+
+Send My Order Through WhatsApp ♡
+
+</button>
+
+
+<p class="form-note">
+
+♡ Your order will open in WhatsApp so
+Mic can confirm availability, payment
+and delivery with you.
+
+</p>
+
+
+</form>
+
+</section>
+
+
+<footer>
+
+<p>
+♡ Book Baddies ♡
+</p>
+
+<p>
+Made for South African book lovers.
+</p>
+
+<div class="footer-links">
+
+<a href="terms.html">
+Terms & Conditions
+</a>
+
+<a href="returns.html">
+Returns & Refunds
+</a>
+
+<a href="raffle-terms.html">
+Raffle Terms
+</a>
+
+<a href="privacy.html">
+Privacy Policy
+</a>
+
+</div>
+
+</footer>
+
+
+<script>
+
+
+/*
+=======================================
+GET PRODUCT FROM SHOP PAGE
+=======================================
+*/
+
+const params =
+new URLSearchParams(window.location.search);
+
+const selectedProduct =
+params.get("product");
+
+if (selectedProduct) {
+
+    const productSelect =
+    document.getElementById("product");
+
+    /*
+    Decode the URL product and match it
+    to the correct option.
+    */
+
+    const matchingOption =
+    Array.from(productSelect.options)
+    .find(option =>
+        option.value === selectedProduct
+    );
+
+    if (matchingOption) {
+
+        productSelect.value =
+        selectedProduct;
+
+    }
+
+}
+
+
+/*
+=======================================
+FORM SUBMISSION
+=======================================
+*/
+
+document
+.getElementById("orderForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+
+    const termsAccepted =
+    document.getElementById("termsAccepted").checked;
+
+
+    /*
+    Make absolutely sure the terms
+    have been accepted.
+    */
+
+    if (!termsAccepted) {
+
+        document.getElementById("termsWarning").style.display =
+        "block";
+
+        document.getElementById("termsAccepted").focus();
+
+        return;
+
+    }
+
+
+    const name =
+    document.getElementById("name").value.trim();
+
+    const phone =
+    document.getElementById("phone").value.trim();
+
+    const product =
+    document.getElementById("product").value;
+
+    const quantity =
+    document.getElementById("quantity").value;
+
+    const address =
+    document.getElementById("address").value.trim();
+
+    const notes =
+    document.getElementById("notes").value.trim();
+
+
+    /*
+    =======================================
+    WHATSAPP MESSAGE
+    =======================================
+    */
+
+    const message =
+
+`Hi Mic! ♡ I would like to place an order from Book Baddies.
+
+Name: ${name}
+
+WhatsApp Number: ${phone}
+
+Product: ${product}
+
+Quantity: ${quantity}
+
+PUDO Locker: ${address}
+
+Additional Notes: ${notes || "None"}
+
+Terms & Conditions: Accepted`;
+
+
+    /*
+    =======================================
+    OPEN WHATSAPP
+    =======================================
+    */
+
+    const whatsappURL =
+    "https://wa.me/27818500337?text=" +
+    encodeURIComponent(message);
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+});
+
+
+/*
+=======================================
+HIDE WARNING WHEN CHECKED
+=======================================
+*/
+
+document
+.getElementById("termsAccepted")
+.addEventListener("change", function() {
+
+    if (this.checked) {
+
+        document.getElementById("termsWarning").style.display =
+        "none";
+
+    }
+
+});
+
+</script>
+
+
+</body>
+</html>
