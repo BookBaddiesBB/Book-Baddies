@@ -499,9 +499,11 @@ document
             );
 
             alert(
-                "Sorry ♡ Your order could not be saved. " +
-                "Please try again or contact Mic directly."
-            );
+    "Supabase error:\n\n" +
+    error.message +
+    "\n\nCode: " +
+    (error.code || "No code")
+);
 
             submitButton.disabled = false;
 
