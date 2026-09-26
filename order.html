@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -54,11 +55,15 @@ content="width=device-width, initial-scale=1.0">
 
 </style>
 
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+
 </head>
 
-
 <body>
-
 
 <header class="navbar">
 
@@ -75,7 +80,6 @@ Baddies
 </span>
 
 </a>
-
 
 <nav>
 
@@ -103,7 +107,6 @@ Order
 
 </header>
 
-
 <section class="page-header">
 
 <p>
@@ -119,22 +122,21 @@ Complete the form below and
 your order will be sent to Mic
 through WhatsApp.
 </span>
-<p> ...
-		</p>
-        <p>
-            Please note that you are responsible for paying the
-            shipping cost. (Not included in price)
-        </p>
+
+<p>...</p>
+
+<p>
+Please note that you are responsible for paying the
+shipping cost. (Not included in price)
+</p>
+
 </section>
 
-
 <section class="section order-section">
-
 
 <form
 id="orderForm"
 class="order-form">
-
 
 <label>
 
@@ -148,7 +150,6 @@ required>
 
 </label>
 
-
 <label>
 
 WhatsApp Number *
@@ -160,7 +161,6 @@ placeholder="Your WhatsApp number"
 required>
 
 </label>
-
 
 <label>
 
@@ -206,7 +206,6 @@ Blind Date - Sci-Fi
 
 </label>
 
-
 <label>
 
 Quantity *
@@ -219,7 +218,6 @@ value="1"
 required>
 
 </label>
-
 
 <label>
 
@@ -248,7 +246,6 @@ required>
 
 </label>
 
-
 <label>
 
 Additional Notes
@@ -259,45 +256,41 @@ placeholder="Anything else you'd like Mic to know?"></textarea>
 
 </label>
 
-
-<!-- =========================
-TERMS & CONDITIONS
-========================= -->
-
 <div class="terms-box">
 
-    <label for="termsAccepted">
+```
+<label for="termsAccepted">
 
-        <input
-        type="checkbox"
-        id="termsAccepted"
-        required>
+    <input
+    type="checkbox"
+    id="termsAccepted"
+    required>
 
-        <span>
+    <span>
 
-            I confirm that I have read and agree to the
-            <a
-            href="terms.html"
-            target="_blank"
-            rel="noopener noreferrer">
-            Book Baddies Terms & Conditions
-            </a>.
+        I confirm that I have read and agree to the
+        <a
+        href="terms.html"
+        target="_blank"
+        rel="noopener noreferrer">
+        Book Baddies Terms & Conditions
+        </a>.
 
-        </span>
+    </span>
 
-    </label>
+</label>
 
-    <p
-    id="termsWarning"
-    class="terms-warning">
+<p
+id="termsWarning"
+class="terms-warning">
 
-        ♡ Please read and accept the Terms & Conditions
-        before placing your order.
+    ♡ Please read and accept the Terms & Conditions
+    before placing your order.
 
-    </p>
+</p>
+```
 
 </div>
-
 
 <button
 type="submit"
@@ -308,7 +301,6 @@ Send My Order Through WhatsApp ♡
 
 </button>
 
-
 <p class="form-note">
 
 ♡ Your order will open in WhatsApp so
@@ -317,11 +309,9 @@ and delivery with you.
 
 </p>
 
-
 </form>
 
 </section>
-
 
 <footer>
 
@@ -355,7 +345,6 @@ Privacy Policy
 
 </footer>
 
-
 <script>
 
 
@@ -375,11 +364,6 @@ if (selectedProduct) {
 
     const productSelect =
     document.getElementById("product");
-
-    /*
-    Decode the URL product and match it
-    to the correct option.
-    */
 
     const matchingOption =
     Array.from(productSelect.options)
@@ -405,7 +389,7 @@ FORM SUBMISSION
 
 document
 .getElementById("orderForm")
-.addEventListener("submit", function(event) {
+.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
@@ -441,7 +425,7 @@ document
     document.getElementById("product").value;
 
     const quantity =
-    document.getElementById("quantity").value;
+    parseInt(document.getElementById("quantity").value, 10);
 
     const address =
     document.getElementById("address").value.trim();
@@ -452,13 +436,104 @@ document
 
     /*
     =======================================
-    WHATSAPP MESSAGE
+    DISABLE BUTTON WHILE SAVING
     =======================================
     */
 
-    const message =
+    const submitButton =
+    document.getElementById("submitOrder");
+
+    submitButton.disabled = true;
+
+    submitButton.textContent =
+    "Saving Your Order... ♡";
+
+
+    /*
+    =======================================
+    SAVE ORDER TO SUPABASE
+    =======================================
+    */
+
+    try {
+
+        const { data, error } =
+        await supabaseClient
+
+        .from("orders")
+
+        .insert([{
+
+            customer_name: name,
+
+            phone: phone,
+
+            product: product,
+
+            quantity: quantity,
+
+            pudo_locker: address,
+
+            notes: notes,
+
+            terms_accepted: true
+
+        }])
+
+        .select("id")
+
+        .single();
+
+
+        /*
+        =======================================
+        CHECK FOR SUPABASE ERROR
+        =======================================
+        */
+
+        if (error) {
+
+            console.error(
+                "Supabase order error:",
+                error
+            );
+
+            alert(
+                "Sorry ♡ Your order could not be saved. " +
+                "Please try again or contact Mic directly."
+            );
+
+            submitButton.disabled = false;
+
+            submitButton.textContent =
+            "Send My Order Through WhatsApp ♡";
+
+            return;
+
+        }
+
+
+        /*
+        =======================================
+        ORDER NUMBER
+        =======================================
+        */
+
+        const orderNumber =
+        data.id;
+
+
+        /*
+        =======================================
+        WHATSAPP MESSAGE
+        =======================================
+        */
+
+        const message =
 
 `Hi Mic! ♡ I would like to place an order from Book Baddies.
+
+Order Number: #${orderNumber}
 
 Name: ${name}
 
@@ -475,21 +550,80 @@ Additional Notes: ${notes || "None"}
 Terms & Conditions: Accepted`;
 
 
-    /*
-    =======================================
-    OPEN WHATSAPP
-    =======================================
-    */
+        /*
+        =======================================
+        OPEN WHATSAPP
+        =======================================
+        */
 
-    const whatsappURL =
-    "https://wa.me/27818500337?text=" +
-    encodeURIComponent(message);
+        const whatsappURL =
+        "https://wa.me/27818500337?text=" +
+        encodeURIComponent(message);
 
 
-    window.open(
-        whatsappURL,
-        "_blank"
-    );
+        /*
+        =======================================
+        OPEN WHATSAPP AFTER
+        ORDER HAS BEEN SAVED
+        =======================================
+        */
+
+        window.open(
+            whatsappURL,
+            "_blank"
+        );
+
+
+        /*
+        =======================================
+        SUCCESS MESSAGE
+        =======================================
+        */
+
+        alert(
+            "Your order has been saved successfully! ♡\n\n" +
+            "Your order number is #" +
+            orderNumber +
+            ".\n\n" +
+            "WhatsApp will now open so Mic can confirm your order."
+        );
+
+
+        /*
+        =======================================
+        CLEAR FORM
+        =======================================
+        */
+
+        document
+        .getElementById("orderForm")
+        .reset();
+
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+        "Send My Order Through WhatsApp ♡";
+
+
+    } catch (error) {
+
+        console.error(
+            "Unexpected order error:",
+            error
+        );
+
+        alert(
+            "Something went wrong while saving your order. " +
+            "Please try again."
+        );
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+        "Send My Order Through WhatsApp ♡";
+
+    }
 
 });
 
@@ -506,15 +640,15 @@ document
 
     if (this.checked) {
 
-        document.getElementById("termsWarning").style.display =
-        "none";
+        document
+        .getElementById("termsWarning")
+        .style.display = "none";
 
     }
 
 });
 
 </script>
-
 
 </body>
 </html>
