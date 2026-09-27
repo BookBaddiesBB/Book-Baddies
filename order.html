@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -53,17 +52,37 @@ content="width=device-width, initial-scale=1.0">
     font-weight: bold;
 }
 
+.order-success {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    background: #e8f7ed;
+    border: 1px solid #9bd3aa;
+    border-radius: 15px;
+    color: #145c2b;
+    text-align: center;
+    font-weight: bold;
+}
+
+.order-error {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    background: #ffeaea;
+    border: 1px solid #e0a0a0;
+    border-radius: 15px;
+    color: #8a1f1f;
+    text-align: center;
+    font-weight: bold;
+}
+
 </style>
-
-<!-- SUPABASE -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="supabase-config.js"></script>
 
 </head>
 
+
 <body>
+
 
 <header class="navbar">
 
@@ -80,6 +99,7 @@ Baddies
 </span>
 
 </a>
+
 
 <nav>
 
@@ -107,6 +127,7 @@ Order
 
 </header>
 
+
 <section class="page-header">
 
 <p>
@@ -132,11 +153,14 @@ shipping cost. (Not included in price)
 
 </section>
 
+
 <section class="section order-section">
+
 
 <form
 id="orderForm"
 class="order-form">
+
 
 <label>
 
@@ -150,6 +174,7 @@ required>
 
 </label>
 
+
 <label>
 
 WhatsApp Number *
@@ -161,6 +186,7 @@ placeholder="Your WhatsApp number"
 required>
 
 </label>
+
 
 <label>
 
@@ -206,6 +232,7 @@ Blind Date - Sci-Fi
 
 </label>
 
+
 <label>
 
 Quantity *
@@ -218,6 +245,7 @@ value="1"
 required>
 
 </label>
+
 
 <label>
 
@@ -246,6 +274,7 @@ required>
 
 </label>
 
+
 <label>
 
 Additional Notes
@@ -256,41 +285,45 @@ placeholder="Anything else you'd like Mic to know?"></textarea>
 
 </label>
 
+
 <div class="terms-box">
 
-```
 <label for="termsAccepted">
 
-    <input
-    type="checkbox"
-    id="termsAccepted"
-    required>
+<input
+type="checkbox"
+id="termsAccepted"
+required>
 
-    <span>
+<span>
 
-        I confirm that I have read and agree to the
-        <a
-        href="terms.html"
-        target="_blank"
-        rel="noopener noreferrer">
-        Book Baddies Terms & Conditions
-        </a>.
+I confirm that I have read and agree to the
 
-    </span>
+<a
+href="terms.html"
+target="_blank"
+rel="noopener noreferrer">
+
+Book Baddies Terms & Conditions
+
+</a>.
+
+</span>
 
 </label>
+
 
 <p
 id="termsWarning"
 class="terms-warning">
 
-    ♡ Please read and accept the Terms & Conditions
-    before placing your order.
+♡ Please read and accept the Terms & Conditions
+before placing your order.
 
 </p>
-```
 
 </div>
+
 
 <button
 type="submit"
@@ -301,17 +334,52 @@ Send My Order Through WhatsApp ♡
 
 </button>
 
+
+<div
+id="successMessage"
+class="order-success">
+
+♡ Your order has been received! ♡
+
+<br><br>
+
+Your order number is
+<span id="orderNumber"></span>.
+
+<br><br>
+
+WhatsApp will now open so Mic can
+confirm your order.
+
+</div>
+
+
+<div
+id="errorMessage"
+class="order-error">
+
+Something went wrong while saving your order.
+
+<br><br>
+
+Please try again or contact Mic directly on WhatsApp.
+
+</div>
+
+
 <p class="form-note">
 
-♡ Your order will open in WhatsApp so
-Mic can confirm availability, payment
-and delivery with you.
+♡ Your order will be saved securely and
+then opened in WhatsApp so Mic can confirm
+availability, payment and delivery with you.
 
 </p>
+
 
 </form>
 
 </section>
+
 
 <footer>
 
@@ -344,6 +412,14 @@ Privacy Policy
 </div>
 
 </footer>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+
 
 <script>
 
@@ -394,14 +470,28 @@ document
     event.preventDefault();
 
 
-    const termsAccepted =
-    document.getElementById("termsAccepted").checked;
+    /*
+    =======================================
+    HIDE OLD MESSAGES
+    =======================================
+    */
+
+    document.getElementById("successMessage").style.display =
+    "none";
+
+    document.getElementById("errorMessage").style.display =
+    "none";
 
 
     /*
-    Make absolutely sure the terms
-    have been accepted.
+    =======================================
+    CHECK TERMS
+    =======================================
     */
+
+    const termsAccepted =
+    document.getElementById("termsAccepted").checked;
+
 
     if (!termsAccepted) {
 
@@ -415,6 +505,12 @@ document
     }
 
 
+    /*
+    =======================================
+    GET FORM VALUES
+    =======================================
+    */
+
     const name =
     document.getElementById("name").value.trim();
 
@@ -425,7 +521,10 @@ document
     document.getElementById("product").value;
 
     const quantity =
-    parseInt(document.getElementById("quantity").value, 10);
+    parseInt(
+        document.getElementById("quantity").value,
+        10
+    );
 
     const address =
     document.getElementById("address").value.trim();
@@ -436,7 +535,31 @@ document
 
     /*
     =======================================
-    DISABLE BUTTON WHILE SAVING
+    BASIC VALIDATION
+    =======================================
+    */
+
+    if (!name || !phone || !product || !address) {
+
+        alert("Please complete all required fields.");
+
+        return;
+
+    }
+
+
+    if (!quantity || quantity < 1) {
+
+        alert("Please enter a valid quantity.");
+
+        return;
+
+    }
+
+
+    /*
+    =======================================
+    PREVENT DOUBLE SUBMISSIONS
     =======================================
     */
 
@@ -451,91 +574,113 @@ document
 
     /*
     =======================================
-    SAVE ORDER TO SUPABASE
+    OPEN WHATSAPP WINDOW EARLY
     =======================================
     */
 
-    try {
+    const whatsappWindow =
+    window.open("", "_blank");
 
-        const { data, error } =
-        await supabaseClient
 
+    /*
+    =======================================
+    GENERATE ORDER NUMBER
+    =======================================
+    */
+
+    const now = new Date();
+
+    const orderNumber =
+    "BB-" +
+    now.getFullYear() +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    String(now.getDate()).padStart(2, "0") +
+    "-" +
+    Math.floor(1000 + Math.random() * 9000);
+
+
+    /*
+    =======================================
+    SAVE ORDER TO SUPABASE
+    =======================================
+    
+    IMPORTANT:
+    
+    We do NOT use .select() here.
+    
+    Customers are allowed to INSERT orders,
+    but they are NOT allowed to SELECT orders.
+    
+    This keeps customer orders private.
+    =======================================
+    */
+
+    const { error } = await supabaseClient
         .from("orders")
-
-        .insert([{
-
-            customer_name: name,
-
-            phone: phone,
-
-            product: product,
-
-            quantity: quantity,
-
-            pudo_locker: address,
-
-            notes: notes,
-
-            terms_accepted: true
-
-        }])
-
-        .select("id")
-
-        .single();
+        .insert([
+            {
+                customer_name: name,
+                phone: phone,
+                product: product,
+                quantity: quantity,
+                pudo_locker: address,
+                notes: notes || null,
+                terms_accepted: true
+            }
+        ]);
 
 
-        /*
-        =======================================
-        CHECK FOR SUPABASE ERROR
-        =======================================
-        */
+    /*
+    =======================================
+    DATABASE ERROR
+    =======================================
+    */
 
-       if (error) {
+    if (error) {
 
-    console.error(
-        "Supabase order error:",
-        error
-    );
+        console.error("Supabase error:", error);
 
-    alert(
-        "Supabase error:\n\n" +
-        error.message +
-        "\n\nCode: " +
-        (error.code || "No code")
-    );
+        if (whatsappWindow) {
+            whatsappWindow.close();
+        }
 
-    submitButton.disabled = false;
+        document.getElementById("errorMessage").style.display =
+        "block";
 
-    submitButton.textContent =
-    "Send My Order Through WhatsApp ♡";
+        submitButton.disabled = false;
 
-    return;
+        submitButton.textContent =
+        "Send My Order Through WhatsApp ♡";
 
-}
+        return;
+
+    }
 
 
-        /*
-        =======================================
-        ORDER NUMBER
-        =======================================
-        */
+    /*
+    =======================================
+    SHOW SUCCESS
+    =======================================
+    */
 
-        const orderNumber =
-        data.id;
+    document.getElementById("successMessage").style.display =
+    "block";
+
+    document.getElementById("orderNumber").textContent =
+    orderNumber;
 
 
-        /*
-        =======================================
-        WHATSAPP MESSAGE
-        =======================================
-        */
+    /*
+    =======================================
+    WHATSAPP MESSAGE
+    =======================================
+    */
 
-        const message =
+    const message =
 
 `Hi Mic! ♡ I would like to place an order from Book Baddies.
 
-Order Number: #${orderNumber}
+Order Number: ${orderNumber}
 
 Name: ${name}
 
@@ -552,87 +697,44 @@ Additional Notes: ${notes || "None"}
 Terms & Conditions: Accepted`;
 
 
-        /*
-        =======================================
-        OPEN WHATSAPP
-        =======================================
-        */
-
-        const whatsappURL =
-        "https://wa.me/27818500337?text=" +
-        encodeURIComponent(message);
+    const whatsappURL =
+    "https://wa.me/27818500337?text=" +
+    encodeURIComponent(message);
 
 
-        /*
-        =======================================
-        OPEN WHATSAPP AFTER
-        ORDER HAS BEEN SAVED
-        =======================================
-        */
+    /*
+    =======================================
+    OPEN WHATSAPP
+    =======================================
+    */
 
-        window.open(
-            whatsappURL,
-            "_blank"
-        );
+    if (whatsappWindow) {
 
+        whatsappWindow.location.href =
+        whatsappURL;
 
-        /*
-        =======================================
-        SUCCESS MESSAGE
-        =======================================
-        */
+    } else {
 
-        alert(
-            "Your order has been saved successfully! ♡\n\n" +
-            "Your order number is #" +
-            orderNumber +
-            ".\n\n" +
-            "WhatsApp will now open so Mic can confirm your order."
-        );
-
-
-        /*
-        =======================================
-        CLEAR FORM
-        =======================================
-        */
-
-        document
-        .getElementById("orderForm")
-        .reset();
-
-
-        submitButton.disabled = false;
-
-        submitButton.textContent =
-        "Send My Order Through WhatsApp ♡";
-
-
-    } catch (error) {
-
-        console.error(
-            "Unexpected order error:",
-            error
-        );
-
-        alert(
-            "Something went wrong while saving your order. " +
-            "Please try again."
-        );
-
-        submitButton.disabled = false;
-
-        submitButton.textContent =
-        "Send My Order Through WhatsApp ♡";
+        window.location.href =
+        whatsappURL;
 
     }
+
+
+    /*
+    =======================================
+    RESET FORM
+    =======================================
+    */
+
+    document.getElementById("orderForm").reset();
 
 });
 
 
 /*
 =======================================
-HIDE WARNING WHEN CHECKED
+HIDE TERMS WARNING
 =======================================
 */
 
@@ -642,9 +744,8 @@ document
 
     if (this.checked) {
 
-        document
-        .getElementById("termsWarning")
-        .style.display = "none";
+        document.getElementById("termsWarning").style.display =
+        "none";
 
     }
 
@@ -652,5 +753,7 @@ document
 
 </script>
 
+
 </body>
+
 </html>
